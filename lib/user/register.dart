@@ -4,6 +4,8 @@ import 'dart:convert';
 import '../main.dart'; // Tambahkan ini
 
 class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
