@@ -114,12 +114,23 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 32),
-              TextField(
+              TextFormField(
                 controller: _userController,
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   hintText: 'Email',
                   prefixIcon: Icon(Icons.email_outlined),
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Email tidak boleh kosong';
+                  }
+                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                  if (!emailRegex.hasMatch(value)) {
+                    return 'Masukkan email yang valid';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextField(

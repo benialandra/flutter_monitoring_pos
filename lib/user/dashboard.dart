@@ -57,9 +57,9 @@ class _DashboardPageState extends State<DashboardPage> {
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            childAspectRatio: itemWidth / itemHeight,
+            childAspectRatio: 0.8, // semakin kecil -> card makin kecil/pendek
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
           ),
@@ -120,16 +120,20 @@ class _DashboardPageState extends State<DashboardPage> {
             Text(
               title,
               style: const TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
             ),
             const SizedBox(height: 6),
             Expanded(
               child: Text(
                 value,
                 style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
