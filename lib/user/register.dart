@@ -22,13 +22,15 @@ class _RegisterPageState extends State<RegisterPage> {
       _success = null;
     });
 
-    String email = base64Encode(utf8.encode(_emailController.text));
-    String pass = base64Encode(utf8.encode(_passController.text));
+    String email = _emailController.text; // Email tidak dienkripsi
+    String password = base64Encode(
+      utf8.encode(_passController.text),
+    ); // Password dienkripsi
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:81/register.php'),
-        body: {'email': email, 'password': pass},
+        Uri.parse('http://192.168.1.8:81/register.php'),
+        body: {'email': email, 'password': password},
       );
 
       if (response.statusCode == 200) {

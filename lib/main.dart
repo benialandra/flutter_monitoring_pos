@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      debugShowCheckedModeBanner: false, // Tambahkan ini
       home: const LoginPage(),
     );
   }
@@ -42,14 +43,19 @@ class _LoginPageState extends State<LoginPage> {
       _error = null;
     });
 
-    // Contoh enkripsi sederhana pakai base64
-    String user = base64Encode(utf8.encode(_userController.text));
+    String email = _userController.text;
+    // Password dienkripsi base64
     String pass = base64Encode(utf8.encode(_passController.text));
+    // last_akses: format yyyy-MM-dd HH:mm:ss
+    String lastAkses = DateTime.now()
+        .toIso8601String()
+        .replaceFirst('T', ' ')
+        .substring(0, 19);
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:81/login.php'),
-        body: {'user': user, 'password': pass},
+        Uri.parse('http://192.168.1.8:81/login.php'),
+        body: {'email': email, 'password': pass, 'last_akses': lastAkses},
       );
 
       if (response.statusCode == 200) {
@@ -58,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
           // Login sukses, pindah ke halaman dashboard
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const LoginPage()),
+            MaterialPageRoute(builder: (context) => DashboardPage()),
           );
         } else {
           setState(() {
@@ -92,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             TextField(
               controller: _userController,
-              decoration: const InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
             TextField(
               controller: _passController,
