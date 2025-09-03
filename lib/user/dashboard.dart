@@ -3,16 +3,41 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:io';
 
 // === Fungsi ambil last reboot (Linux/Android) ===
-Future<String> getLastReboot() async {
+// === Fungsi ambil last reboot (Linux/Android) ===
+Future<Map<String, dynamic>> getLastReboot() async {
   try {
     final result = await Process.run("uptime", ["-s"]);
     if (result.exitCode == 0) {
-      return result.stdout.toString().trim();
+      String raw = result.stdout.toString().trim();
+      try {
+        DateTime rebootTime = DateTime.parse(raw);
+        DateTime now = DateTime.now();
+        Duration diff = now.difference(rebootTime);
+
+        int days = diff.inDays;
+        int hours = diff.inHours % 24;
+        int minutes = diff.inMinutes % 60;
+
+        String formatted;
+        if (days > 0) {
+          formatted = "$days hari $hours jam $minutes menit lalu";
+        } else {
+          formatted = "$hours jam $minutes menit lalu";
+        }
+
+        // return data dalam Map
+        return {
+          "text": formatted,
+          "needRestart": diff.inHours >= 8, // cek lebih dari 8 jam
+        };
+      } catch (e) {
+        return {"text": raw, "needRestart": false};
+      }
     } else {
-      return "Gagal ambil uptime";
+      return {"text": "Gagal ambil uptime", "needRestart": false};
     }
   } catch (e) {
-    return "Error: $e";
+    return {"text": "Error: $e", "needRestart": false};
   }
 }
 
@@ -26,13 +51,15 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   String lastReboot = "Loading...";
+  bool needRestart = false;
 
   @override
   void initState() {
     super.initState();
     getLastReboot().then((value) {
       setState(() {
-        lastReboot = value;
+        lastReboot = value["text"];
+        needRestart = value["needRestart"];
       });
     });
   }
@@ -69,6 +96,7 @@ class _DashboardPageState extends State<DashboardPage> {
               value: lastReboot,
               icon: Icons.restart_alt,
               color: Colors.blue,
+              showWarning: needRestart,
             ),
             _buildInfoCard(
               title: "General",
@@ -94,6 +122,7 @@ class _DashboardPageState extends State<DashboardPage> {
     required String value,
     required IconData icon,
     required Color color,
+    bool showWarning = false,
   }) {
     return Card(
       elevation: 4,
@@ -126,18 +155,25 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
             const SizedBox(height: 6),
-            Expanded(
-              child: Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
               ),
             ),
+            if (showWarning) ...[
+              const SizedBox(height: 6),
+              const Text(
+                "⚠️ Disarankan untuk restart",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.red,
+                ),
+              ),
+            ],
           ],
         ),
       ),
