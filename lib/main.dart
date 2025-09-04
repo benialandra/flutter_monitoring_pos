@@ -214,13 +214,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
-              const Center(
-                child: Text(
-                  "IT SUPPORT BATAM - 2DZ1",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-              ),
             ],
           ),
         ),

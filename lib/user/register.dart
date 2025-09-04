@@ -217,14 +217,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 32),
-                const Center(
-                  child: Text(
-                    "IT SUPPORT BATAM - 2DZ1",
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                ),
               ],
             ),
           ),
