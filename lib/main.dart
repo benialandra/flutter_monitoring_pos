@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.8:81/login.php'),
+        Uri.parse('http://10.234.202.219:81/login.php'),
         body: {'email': email, 'password': pass, 'last_akses': lastAkses},
       );
 
@@ -217,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 24),
               const Center(
                 child: Text(
-                  "Login+",
+                  "IT SUPPORT BATAM - 2DZ1",
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
               ),

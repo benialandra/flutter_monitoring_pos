@@ -32,7 +32,7 @@ dependencies:
   fl_chart: ^0.69.0
   system_info2: ^4.0.0
   device_info_plus: ^10.1.0
- flutter_local_notifications: ^17.2.1
+  flutter_local_notifications: ^17.2.1
  
 
   flutter:

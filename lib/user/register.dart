@@ -49,7 +49,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.8:81/register.php'),
+        Uri.parse('http://10.234.202.219:81/register.php'),
         body: {'email': email, 'password': password},
       );
 
@@ -221,7 +221,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 32),
                 const Center(
                   child: Text(
-                    "Register+",
+                    "IT SUPPORT BATAM - 2DZ1",
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ),
